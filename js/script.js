@@ -17,7 +17,26 @@ TABBED HOVER -->
       .siblings().addClass('hoverblock');
   });
 
+
+
   $(document).ready(function(){
+      //alert(9);
+
+
+
+      /* ==============================================
+       LOADER -->
+       =============================================== */
+
+
+
+
+
+
+
+
+
+
       $('.topbarhover').hover(function() {
         $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(200);
       }, function() {
@@ -77,144 +96,148 @@ TOOLTIP -->
     container: "body"
   });
 
-/* ==============================================
-CAROUSEL -->
-=============================================== */
 
-    $('#owl-sidebar').owlCarousel({
-        loop:true,
-        margin:30,
-        autoplay:true,
-        autoplayTimeout:3000,
-        autoplayHoverPause:true,
-        nav:false,
-        dots:true,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:1
-            },
-            1000:{
-                items:1
-            }
-        }
-    })
-    $('#owl-home').owlCarousel({
-        loop:true,
-        margin:30,
-        autoplay:true,
-        autoplayTimeout:3000,
-        autoplayHoverPause:true,
-        nav:false,
-        dots:true,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:1
-            },
-            1000:{
-                items:1
-            }
-        }
-    })
-    $('#owl-featured').owlCarousel({
-        loop:true,
-        margin:15,
-        nav:true,
-        dots:false,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:2
-            },
-            1000:{
-                items:4
-            }
-        }
-    })
-    $('#owl-recent-second').owlCarousel({
-        loop:true,
-        margin:15,
-        nav:true,
-        dots:false,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:2
-            },
-            1000:{
-                items:3
-            }
-        }
-    })
-    $('#owl-featured-second').owlCarousel({
-        loop:true,
-        margin:15,
-        nav:true,
-        dots:false,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:2
-            },
-            1000:{
-                items:3
-            }
-        }
-    })
-    $('#owl-recent').owlCarousel({
-        loop:true,
-        margin:15,
-        nav:true,
-        dots:false,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:2
-            },
-            1000:{
-                items:4
-            }
-        }
-    })
-    $('#owl-blog').owlCarousel({
-        loop:true,
-        margin:15,
-        nav:true,
-        dots:false,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:2
-            },
-            1000:{
-                items:3
-            }
-        }
-    })
-
-/* ==============================================
-LOADER -->
-=============================================== */
 
     $(window).load(function() {
+        //alert(8);
         $('#loader').delay(300).fadeOut('slow');
         $('#loader-container').delay(200).fadeOut('slow');
         $('body').delay(300).css({'overflow':'visible'});
+
+
+
+
+        $('#owl-home').owlCarousel({
+            loop:true,
+            margin:30,
+            autoplay:true,
+            autoplayTimeout:3000,
+            autoplayHoverPause:true,
+            nav:false,
+            dots:true,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:1
+                },
+                1000:{
+                    items:1
+                }
+            }
+        });
+
+        /* ==============================================
+         CAROUSEL -->
+         =============================================== */
+
+        $('#owl-sidebar').owlCarousel({
+            loop:true,
+            margin:30,
+            autoplay:true,
+            autoplayTimeout:3000,
+            autoplayHoverPause:true,
+            nav:false,
+            dots:true,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:1
+                },
+                1000:{
+                    items:1
+                }
+            }
+        })
+
+        $('#owl-featured').owlCarousel({
+            loop:true,
+            margin:15,
+            nav:true,
+            dots:false,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:2
+                },
+                1000:{
+                    items:4
+                }
+            }
+        })
+        $('#owl-recent-second').owlCarousel({
+            loop:true,
+            margin:15,
+            nav:true,
+            dots:false,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:2
+                },
+                1000:{
+                    items:3
+                }
+            }
+        })
+        $('#owl-featured-second').owlCarousel({
+            loop:true,
+            margin:15,
+            nav:true,
+            dots:false,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:2
+                },
+                1000:{
+                    items:3
+                }
+            }
+        })
+        $('#owl-recent').owlCarousel({
+            loop:true,
+            margin:15,
+            nav:true,
+            dots:false,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:2
+                },
+                1000:{
+                    items:4
+                }
+            }
+        })
+        $('#owl-blog').owlCarousel({
+            loop:true,
+            margin:15,
+            nav:true,
+            dots:false,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:2
+                },
+                1000:{
+                    items:3
+                }
+            }
+        })
     })
 
 /* ==============================================
