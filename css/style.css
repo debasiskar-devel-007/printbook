@@ -64,7 +64,7 @@
 		font-size: 38px; 
 	}
 	h2{
-		font-size: 24px; 	
+		font-size: 23px;
 	}
 	h3{
 		font-size: 18px; 
@@ -448,7 +448,7 @@
 	}
 	.navbar-default .navbar-nav > li > a {
 	    color: #494949 !important;
-	    font-size: 15px;
+	    font-size: 14px;
 	    font-style: 300 !important;
 	    outline: 0;
 	    letter-spacing: 0.06em;
@@ -1193,7 +1193,7 @@
 		background-color: transparent;
 	}
 	.shopmeta .pull-left {
-		padding:0 45px;
+		padding:0 42px;
 		color:#ffffff !important;
 		border-radius: 3px;
 		margin:0px 0px 15px 0px;
