@@ -2,7 +2,8 @@
     <div class="row">
         <div class="col-md-9">
             <div class="custom-menu">
-                <p>Dear customer, welcome to the Print Book, please <a ui-sref="login">login</a> or <a ui-sref="register">create an account</a></p>
+                <p ng-show="loginFlag">Dear customer, welcome to the Print Book, please <a ui-sref="login">login</a> or <a ui-sref="register">create an account</a></p>
+                <p ng-show="logoutFlag">Dear customer, welcome to the Print Book,  <a ui-sref="logout">logout</a>  </p>
             </div><!-- end menu -->
         </div><!-- end col -->
 

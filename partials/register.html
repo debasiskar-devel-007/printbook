@@ -19,18 +19,58 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <form role="form">
+                <form role="form" name="registerform" angular-validator-submit="submitregisterForm()" novalidate angular-validator>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Enter Name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter Name">
+                        <label for="name">Enter Name</label>
+                        <input type="email" id="name" name="name" placeholder="Enter Name"
+                               validate-on="blur"
+                               class = "form-control UserLogIn_email"
+                               ng-model = "form.fullname"
+                               required-message="'name cannot be blank.'"
+
+                               required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="username">Enter User Name</label>
+                        <input type="email" id=username" name="username" placeholder="Enter User Name"
+                               validate-on="blur"
+                               class = "form-control UserLogIn_email"
+                               ng-model = "form.username"
+                               required-message="'User name cannot be blank.'"
+
+                               required>
+                    </div>
+
                     <div class="form-group">
                         <label for="exampleInputPassword1">Enter Email</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Email">
+                        <input type="email" name="email" id="exampleInputPassword1" placeholder="Enter Email"
+                               validate-on="blur"
+                               class = "form-control UserLogIn_email"
+                               ng-model = "form.email"
+                               required-message="'Email cannot be blank.'"
+                               invalid-message="'Enter valid email address.'"
+                               required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Mobile Number</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mobile Number">
+                        <input type="text" name="phone" id="exampleInputPassword1" placeholder="Mobile Number"
+                               validate-on="dirty"
+                               class = "form-control UserLogIn_email"
+                               ng-model = "form.phone"
+                               required-message="'Phone cannot be blank.'"
+
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="text" name="phone" id="exampleInputPassword1" placeholder="Password"
+                               validate-on="blur"
+                               class = "form-control UserLogIn_email"
+                               ng-model = "form.password"
+                               required-message="'Password cannot be blank.'"
+
+                               required>
                     </div>
                     <button type="submit" class="btn btn-primary">Register</button>
                 </form>

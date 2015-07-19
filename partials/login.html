@@ -19,14 +19,27 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <form role="form">
+                <form role="form" name="loginform" angular-validator-submit="submitloginForm()" novalidate angular-validator>
+                    <label class="has-error" ng-show="msgFlag">Incorrect Login Information..</label>
                     <div class="form-group">
+
                         <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        <input type="email" id="UserManager_email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"
+                               validate-on="blur"
+                               class = "form-control UserLogIn_email"
+                               ng-model = "form.email"
+                               required-message="'Email cannot be blank.'"
+                               invalid-message="'Enter valid email address.'"
+                               required>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <label for="UserManager_password">Password</label>
+                        <input type="password"  id="UserManager_password" name="password" placeholder="Password"
+                               validate-on="blur"
+                               class = "form-control UserManager_password"
+                               ng-model = "form.password"
+                               required-message="'Password cannot be blank.'"
+                               required>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

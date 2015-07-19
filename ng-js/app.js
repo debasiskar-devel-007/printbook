@@ -10,6 +10,8 @@
 var printbook = angular.module('printbook', [
     'ui.router',
     'ngAnimate',
+    'angularValidator',
+    'ngCookies'
    // 'homeControllers'
 ]);
 
@@ -48,8 +50,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/first-clearfix.html',
@@ -103,8 +105,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/aboutbody.html',
@@ -149,8 +151,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/testimonialbody.html'
@@ -198,8 +200,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/contactbody.html'
@@ -247,8 +249,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/customize.html'
@@ -297,12 +299,12 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
-                    templateUrl: 'partials/login.html'
-                    // controller: 'testimonialbody'
+                    templateUrl: 'partials/login.html',
+                     controller: 'login'
                 },
 
                 'svgs': {
@@ -345,12 +347,12 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
-                    templateUrl: 'partials/register.html'
-                    // controller: 'testimonialbody'
+                    templateUrl: 'partials/register.html',
+                    controller: 'register'
                 },
 
                 'svgs': {
@@ -394,8 +396,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/terms.html'
@@ -444,8 +446,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/privacy.html'
@@ -492,8 +494,58 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html'
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
+                },
+                'first-clearfix': {
+                    templateUrl: 'partials/disc.html'
+                    // controller: 'testimonialbody'
+                },
+
+                'svgs': {
+                    templateUrl: 'partials/svgs.html'
                     //controller: 'scotchController'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html'
+                    //controller: 'scotchController'
+                }
+            }
+        }
+
+    )
+
+
+
+        .state('logout',{
+            url:"/logout",
+            views: {
+
+                // the main template will be placed here (relatively named)
+                '': { templateUrl: 'about.html' },
+
+                // the child views will be defined here (absolutely named)
+                'loader': { templateUrl: 'partials/loader.html' ,
+                    controller:'loader'
+
+                },
+
+                // for column two, we'll define a separate controller
+                'modal': {
+                    templateUrl: 'partials/modal.html'
+                    //controller: 'logout'
+                },
+                'topbar': {
+                    templateUrl: 'partials/topbar.html',
+                    controller: 'logout'
+                },
+                'header': {
+                    templateUrl: 'partials/inner-header.html'
+                    //controller: 'scotchController'
+                },
+                'header-bottom': {
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/disc.html'
@@ -710,6 +762,132 @@ printbook.controller('aboutbody', function($scope) {
     setTimeout(function() {
         $scope.init();
     },1000);
+
+
+});
+
+printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies) {
+
+
+
+    $scope.submitloginForm = function(){
+        //alert("Form submitted");
+        $scope.msgFlag=false;
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : 'http://admin.printbook.in/ngmodule/login',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            if(data>0){
+
+                $cookieStore.put('useremail',$scope.form.email);
+                $cookieStore.put('userid',data);
+                //var t=$cookieStore.get('userid');
+                //alert($cookieStore.get('userid'));
+
+                $state.go('index')
+            }
+            else{
+                $scope.msgFlag=true;
+                $cookieStore.put('useremail','');
+                $cookieStore.put('userid',data);
+
+            }
+
+        });
+
+    };
+
+
+});
+
+
+printbook.controller('logout', function($scope,$http,$state,$cookieStore,$cookies) {
+
+
+    $scope.init = function () {
+        $cookieStore.remove('useremail');
+        $cookieStore.remove('userid');
+        $state.go('index');
+        //alert($cookieStore.get('userid'));
+    };
+
+    $scope.init();
+
+});
+
+
+
+
+
+printbook.controller('register', function($scope,$http,$state,$cookieStore,$cookies) {
+
+
+
+    $scope.submitregisterForm = function(){
+        //alert("Form submitted");
+        $scope.msgFlag=false;
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : 'http://admin.printbook.in/ngmodule/register',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            if(data){
+
+
+
+                $state.go('login')
+            }
+            else{
+                $scope.msgFlag=true;
+
+
+            }
+
+        });
+
+    };
+
+
+});
+
+
+
+
+printbook.controller('checkstattus', function($scope,$cookieStore,$cookies) {
+
+    //$scope.loginFlag=true;
+
+    $scope.init = function () {
+        // check if there is query in url
+        // and fire search in case its value is not empty
+
+        if($cookieStore.get('userid')>0){
+            //alert(45);
+            $scope.loginFlag=false;
+            $scope.logoutFlag=true;
+
+        }
+        else{
+            $scope.loginFlag=true;
+            $scope.logoutFlag=false;
+        }
+
+
+
+        //alert(87);
+
+
+    };
+
+        $scope.init();
+
 
 
 });
