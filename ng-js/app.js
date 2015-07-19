@@ -318,8 +318,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
 
     )
 
-        .state('resgister',{
-            url:"/resgister",
+        .state('register',{
+            url:"/register",
             views: {
 
                 // the main template will be placed here (relatively named)
@@ -350,6 +350,153 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/register.html'
+                    // controller: 'testimonialbody'
+                },
+
+                'svgs': {
+                    templateUrl: 'partials/svgs.html'
+                    //controller: 'scotchController'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html'
+                    //controller: 'scotchController'
+                }
+            }
+        }
+
+    )
+
+
+        .state('terms',{
+            url:"/terms",
+            views: {
+
+                // the main template will be placed here (relatively named)
+                '': { templateUrl: 'about.html' },
+
+                // the child views will be defined here (absolutely named)
+                'loader': { templateUrl: 'partials/loader.html' ,
+                    controller:'loader'
+
+                },
+
+                // for column two, we'll define a separate controller
+                'modal': {
+                    templateUrl: 'partials/modal.html'
+                    //controller: 'scotchController'
+                },
+                'topbar': {
+                    templateUrl: 'partials/topbar.html'
+                    //controller: 'scotchController'
+                },
+                'header': {
+                    templateUrl: 'partials/inner-header.html'
+                    //controller: 'scotchController'
+                },
+                'header-bottom': {
+                    templateUrl: 'partials/header-bottom.html'
+                    //controller: 'scotchController'
+                },
+                'first-clearfix': {
+                    templateUrl: 'partials/terms.html'
+                    // controller: 'testimonialbody'
+                },
+
+                'svgs': {
+                    templateUrl: 'partials/svgs.html'
+                    //controller: 'scotchController'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html'
+                    //controller: 'scotchController'
+                }
+            }
+        }
+
+    )
+
+
+
+        .state('privacy',{
+            url:"/privacy",
+            views: {
+
+                // the main template will be placed here (relatively named)
+                '': { templateUrl: 'about.html' },
+
+                // the child views will be defined here (absolutely named)
+                'loader': { templateUrl: 'partials/loader.html' ,
+                    controller:'loader'
+
+                },
+
+                // for column two, we'll define a separate controller
+                'modal': {
+                    templateUrl: 'partials/modal.html'
+                    //controller: 'scotchController'
+                },
+                'topbar': {
+                    templateUrl: 'partials/topbar.html'
+                    //controller: 'scotchController'
+                },
+                'header': {
+                    templateUrl: 'partials/inner-header.html'
+                    //controller: 'scotchController'
+                },
+                'header-bottom': {
+                    templateUrl: 'partials/header-bottom.html'
+                    //controller: 'scotchController'
+                },
+                'first-clearfix': {
+                    templateUrl: 'partials/privacy.html'
+                    // controller: 'testimonialbody'
+                },
+
+                'svgs': {
+                    templateUrl: 'partials/svgs.html'
+                    //controller: 'scotchController'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html'
+                    //controller: 'scotchController'
+                }
+            }
+        }
+
+    )
+
+        .state('disc',{
+            url:"/disc",
+            views: {
+
+                // the main template will be placed here (relatively named)
+                '': { templateUrl: 'about.html' },
+
+                // the child views will be defined here (absolutely named)
+                'loader': { templateUrl: 'partials/loader.html' ,
+                    controller:'loader'
+
+                },
+
+                // for column two, we'll define a separate controller
+                'modal': {
+                    templateUrl: 'partials/modal.html'
+                    //controller: 'scotchController'
+                },
+                'topbar': {
+                    templateUrl: 'partials/topbar.html'
+                    //controller: 'scotchController'
+                },
+                'header': {
+                    templateUrl: 'partials/inner-header.html'
+                    //controller: 'scotchController'
+                },
+                'header-bottom': {
+                    templateUrl: 'partials/header-bottom.html'
+                    //controller: 'scotchController'
+                },
+                'first-clearfix': {
+                    templateUrl: 'partials/disc.html'
                     // controller: 'testimonialbody'
                 },
 
