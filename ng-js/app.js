@@ -826,10 +826,28 @@ printbook.controller('logout', function($scope,$http,$state,$cookieStore,$cookie
 printbook.controller('register', function($scope,$http,$state,$cookieStore,$cookies) {
 
 
+    $scope.passwordValidator = function(password) {
+
+        if(!password){return;}
+
+        if (password.length < 6) {
+            return "Password must be at least " + 6 + " characters long";
+        }
+
+        if (!password.match(/[A-Z]/)) {
+            return "Password must have at least one capital letter";
+        }
+
+        if (!password.match(/[0-9]/)) {
+            return "Password must have at least one number";
+        }
+
+        return true;
+    };
 
     $scope.submitregisterForm = function(){
         //alert("Form submitted");
-        $scope.msgFlag=false;
+        //$scope.msgFlag=false;
 
         $http({
             method  : 'POST',
@@ -845,7 +863,7 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
                 $state.go('login')
             }
             else{
-                $scope.msgFlag=true;
+               // $scope.msgFlag=true;
 
 
             }
