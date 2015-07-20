@@ -11,7 +11,8 @@ var printbook = angular.module('printbook', [
     'ui.router',
     'ngAnimate',
     'angularValidator',
-    'ngCookies'
+    'ngCookies',
+    'ngDialog'
    // 'homeControllers'
 ]);
 
@@ -566,6 +567,55 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
     )
 
 
+        .state('ontimepasswordchange',{
+            url:"/ontimepasswordchange/:userId",
+            views: {
+
+                // the main template will be placed here (relatively named)
+                '': { templateUrl: 'about.html' },
+
+                // the child views will be defined here (absolutely named)
+                'loader': { templateUrl: 'partials/loader.html' ,
+                    controller:'loader'
+
+                },
+
+                // for column two, we'll define a separate controller
+                'modal': {
+                    templateUrl: 'partials/modal.html'
+                    //controller: 'logout'
+                },
+                'topbar': {
+                    templateUrl: 'partials/topbar.html',
+                   // controller: 'logout'
+                },
+                'header': {
+                    templateUrl: 'partials/inner-header.html'
+                    //controller: 'scotchController'
+                },
+                'header-bottom': {
+                    templateUrl: 'partials/header-bottom.html',
+                   // controller: 'checkstattus'
+                },
+                'first-clearfix': {
+                    templateUrl: 'partials/disc.html',
+                     controller: 'autologin'
+                },
+
+                'svgs': {
+                    templateUrl: 'partials/svgs.html'
+                    //controller: 'scotchController'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html'
+                    //controller: 'scotchController'
+                }
+            }
+        }
+
+    )
+
+
 
 
         .state('loader', {
@@ -823,7 +873,7 @@ printbook.controller('logout', function($scope,$http,$state,$cookieStore,$cookie
 
 
 
-printbook.controller('register', function($scope,$http,$state,$cookieStore,$cookies) {
+printbook.controller('register', function($scope,$http,$state,$cookieStore,$cookies,ngDialog) {
 
 
     $scope.passwordValidator = function(password) {
@@ -845,9 +895,74 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
         return true;
     };
 
+    $scope.usernamevalidator = function(username,$http) {
+
+
+
+        if(!username){return;}
+        if (username.length < 6) {
+            return "User name must be at least " + 6 + " characters long";
+        }
+
+
+        /*if($scope.usernamecheckserver(username)!=true)
+            return 'User name already exists';*/
+
+
+
+
+
+        return true;
+    };
+
+
+    $scope.usernamecheckserver = function(username) {
+
+
+
+
+
+
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : 'http://admin.printbook.in/ngmodule/checkusername',
+            data    : {username: username},  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            alert(data);
+            if(data==false){
+                return true;
+
+
+                //$state.go('login')
+            }
+            else{
+                // $scope.msgFlag=true;
+                return "This User Name Already Exists  ";
+
+
+            }
+
+        });
+
+
+
+
+    };
+
+
+
+
+
     $scope.submitregisterForm = function(){
         //alert("Form submitted");
         //$scope.msgFlag=false;
+        ngDialog.open({
+            template: '<p>Processing ...Please wait !  </p>',
+            plain: true
+        });
 
         $http({
             method  : 'POST',
@@ -856,14 +971,33 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
             data    : $.param($scope.form),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
-            if(data){
+            $scope.emailmsgFlag=false;
+            $scope.usermsgFlag=false;
+            if(data=='username'){
 
 
 
-                $state.go('login')
+
+                //$state.go('login')
+                $scope.usermsgFlag=true;
+
             }
-            else{
+             if(data=='email'){
                // $scope.msgFlag=true;
+                 $scope.emailmsgFlag=true;
+
+
+            }
+
+            if(data=="true"){
+                $state.go('login');
+                ngDialog.close();
+                ngDialog.open({
+                    template: '<p>You Registration is Successful .. You can Check your email and continue to use our website by <a ui-sref="login">login</a> here by closing this ! </p>',
+                    plain: true
+                });
+                // $scope.msgFlag=true;
+                //$scope.emailmsgFlag=true;
 
 
             }
@@ -874,6 +1008,8 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
 
 
 });
+
+
 
 
 
@@ -905,6 +1041,72 @@ printbook.controller('checkstattus', function($scope,$cookieStore,$cookies) {
     };
 
         $scope.init();
+
+
+
+});
+
+
+
+printbook.controller('autologin', function($scope,$cookieStore,$cookies,$stateParams,$http,$state) {
+
+    //$scope.loginFlag=true;
+
+    $scope.init = function () {
+        // check if there is query in url
+        // and fire search in case its value is not empty
+
+        /*if($cookieStore.get('userid')>0){
+            //alert(45);
+            $scope.loginFlag=false;
+            $scope.logoutFlag=true;
+
+        }
+        else{
+            $scope.loginFlag=true;
+            $scope.logoutFlag=false;
+        }*/
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : 'http://admin.printbook.in/ngmodule/autologin',
+            data    : {username: $stateParams.userId},  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            if(data!=0){
+
+                alert(data['mail']);
+                alert(data['uid']);
+                $cookieStore.put('useremail',data['mail']);
+                $cookieStore.put('userid',data['uid']);
+                //var t=$cookieStore.get('userid');
+                //alert($cookieStore.get('userid'));
+
+                $state.go('index');
+            }
+            else{
+                /*$scope.msgFlag=true;
+                $cookieStore.put('useremail','');
+                $cookieStore.put('userid',data);*/
+                ngDialog.open({
+                    template: '<p>Your Email verification was unsuccessful , try again!! </p>',
+                    plain: true
+                });
+
+            }
+
+        });
+
+
+
+
+        alert($stateParams.userId);
+
+
+    };
+
+    $scope.init();
 
 
 

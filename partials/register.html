@@ -20,25 +20,27 @@
         <div class="row">
             <div class="col-lg-6">
                 <form role="form" class="form-horizontal" name="registerform" angular-validator-submit="submitregisterForm()" novalidate angular-validator>
+                    <label class="has-error" ng-show="usermsgFlag">User name already exists</label>
+                    <label class="has-error" ng-show="emailmsgFlag">Email already exists</label>
                     <div class="form-group">
-                        <label for="name">Enter Name</label>
-                        <input type="text" id="register_name" name="name" placeholder="Enter Name"
-                               validate-on="blur"
+                        <label for="register_name">Enter Name</label>
+                        <input type="text" id="register_name" name="fullname" placeholder="Enter Name"
+
                                class = "form-control UserLogIn_email"
                                ng-model = "form.fullname"
-                               required-message="'name cannot be blank.'"
-
-                               required>
+                               required-message="'Name cannot be blank.'"
+                               required username-validator>
                     </div>
 
                     <div class="form-group">
                         <label for="username">Enter User Name</label>
                         <input type="text" id=register_username" name="username" placeholder="Enter User Name"
-                               validate-on="blur"
+
                                class = "form-control UserLogIn_email"
                                ng-model = "form.username"
                                required-message="'User name cannot be blank.'"
-
+                               validator = "usernamevalidator(form.username) === true"
+                               invalid-message = "usernamevalidator(form.username)"
                                required>
                     </div>
 
@@ -59,7 +61,7 @@
                                class = "form-control UserLogIn_email"
                                ng-model = "form.phone"
                                required-message="'Phone cannot be blank.'"
-                               required>
+                               required >
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
@@ -89,3 +91,6 @@
 
     </div><!-- end row -->
 </div>
+
+
+
