@@ -26,6 +26,12 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('index',{
             url:"/index",
+            resolve:{
+                'MyServiceData':function(MyService){
+                    // MyServiceData will also be injectable in your controller, if you don't want this you could create a new promise with the $q service
+                    return MyService.promise;
+                }
+            },
             views: {
 
                 // the main template will be placed here (relatively named)
@@ -205,8 +211,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     controller: 'checkstattus'
                 },
                 'first-clearfix': {
-                    templateUrl: 'partials/contactbody.html'
-                    // controller: 'testimonialbody'
+                    templateUrl: 'partials/contactbody.html',
+                    controller: 'firstclearfix'
                 },
 
                 'svgs': {
@@ -586,7 +592,7 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'logout'
                 },
                 'topbar': {
-                    templateUrl: 'partials/topbar.html',
+                    templateUrl: 'partials/topbar.html'
                    // controller: 'logout'
                 },
                 'header': {
@@ -594,7 +600,7 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     //controller: 'scotchController'
                 },
                 'header-bottom': {
-                    templateUrl: 'partials/header-bottom.html',
+                    templateUrl: 'partials/header-bottom.html'
                    // controller: 'checkstattus'
                 },
                 'first-clearfix': {
@@ -671,13 +677,59 @@ printbook.controller('loader', function($scope) {
 
 
 
-printbook.controller('firstclearfix', function($scope) {
+printbook.controller('firstclearfix', function($scope,$http,ngDialog,$state,MyService) {
 
+
+
+
+    $scope.submitcontactForm = function(){
+        //alert("Form submitted");
+        $scope.msgFlag=false;
+        var posting=ngDialog.open({
+            template: '<p>In Progress .. Please wait ! </p>',
+            plain: true
+        });
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : 'http://admin.printbook.in/ngmodule/contactcreate',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            posting.close();
+            ngDialog.open({
+                template: '<p>Thank You! We will get back to you asap !! </p>',
+                plain: true
+            });
+
+           // ngDialog.closeAll();
+           // $scope.form.$setPristine();
+            //$scope.contact.$setUntouched();
+            $state.reload();
+
+        });
+
+    };
+
+
+
+    var data=(MyService.doStuff());
+    //alert(data);
+
+    $scope.friends=(data);
 
 
     $scope.init = function () {
         // check if there is query in url
         // and fire search in case its value is not empty
+
+        var x;
+
+
+
+
+
 
 
 
@@ -704,9 +756,58 @@ printbook.controller('firstclearfix', function($scope) {
             }
         });
 
+        //$scope.callhttp();
+
 
     };
-    $scope.init();
+    setTimeout(function(){
+        $scope.init();
+
+    },2000);
+    $scope.callhttp=function(){
+
+
+        $http({
+            method  : 'GET',
+            async:   false,
+            url     : 'http://admin.printbook.in/ngmodule/getbanners',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+
+            var x;
+
+            for(x in data) {
+                alert(data[x]+'=='+x);
+            }
+
+
+        });
+
+    }
+
+
+});
+
+
+printbook.service('MyService', function($http) {
+    var myData = null;
+
+    var promise = $http.get('http://admin.printbook.in/ngmodule/getbanners').success(function (data) {
+        //alert(data);
+        myData=data;
+    });
+    return {
+        promise:promise,
+        setData: function (data) {
+            myData = data;
+        },
+        doStuff: function () {
+            //alert(myData);
+            //alert(data);
+            return myData;//.getSomeData();
+        }
+    };
 
 });
 
@@ -959,7 +1060,7 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
     $scope.submitregisterForm = function(){
         //alert("Form submitted");
         //$scope.msgFlag=false;
-        ngDialog.open({
+        var regpost=ngDialog.open({
             template: '<p>Processing ...Please wait !  </p>',
             plain: true
         });
@@ -991,7 +1092,7 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
 
             if(data=="true"){
                 $state.go('login');
-                ngDialog.close();
+                regpost.close();
                 ngDialog.open({
                     template: '<p>You Registration is Successful .. You can Check your email and continue to use our website by <a ui-sref="login">login</a> here by closing this ! </p>',
                     plain: true
@@ -1101,7 +1202,7 @@ printbook.controller('autologin', function($scope,$cookieStore,$cookies,$statePa
 
 
 
-        alert($stateParams.userId);
+        //alert($stateParams.userId);
 
 
     };

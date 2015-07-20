@@ -1950,3 +1950,10 @@
 	    margin-top: 0;
 	    vertical-align: top;
 	}
+
+@media (min-width: 768px){
+    .contact_form label.validationMessage{
+        padding: 0 !important;
+    }
+
+}
