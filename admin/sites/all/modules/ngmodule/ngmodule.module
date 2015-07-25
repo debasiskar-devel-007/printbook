@@ -110,6 +110,14 @@ function ngmodule_menu() {
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
+    $items['ngmodule/googlelogin'] = array(
+        'title' => 'googlelogin',
+        'page callback' => 'googlelogin',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
 
     
 
@@ -198,12 +206,14 @@ function register(){
 function facebooklogin(){
 //var_dump($_POST);
 
+
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
     header("Access-Control-Allow-Credentials: true");
     header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+    //var_dump($_POST);
 
 
 
@@ -219,17 +229,17 @@ function facebooklogin(){
         5 => 'General Users',
     );
     $new_user = array(
-        'name' => $_POST['id'],
+        'name' => @$_POST['id'],
         'pass' => randomPassword(), // note: do not md5 the password
-        'mail' => $_POST['email'],
+        'mail' => @$_POST['email'],
         'status' => 1,
-        'init' => $_POST['email'],
+        'init' => @$_POST['email'],
         'roles' => $roles,
 
         'field_name' => array(
             'und' => array(
                 0 => array(
-                    'value' => $_POST['name'],
+                    'value' => @$_POST['name'],
                 ),
             ),
         ),
@@ -248,6 +258,66 @@ function facebooklogin(){
     echo $_POST['id'];
 
 }
+
+
+
+
+function googlelogin(){
+//var_dump($_POST);
+
+
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+    //var_dump($_POST);
+
+
+
+    $user = user_load_by_mail(trim(@$_POST['emails'][0]['value']));
+    if($user->uid!=0)
+    {
+        echo $user->uid;
+        return;
+
+    }
+    $roles = array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        5 => 'General Users',
+    );
+    $new_user = array(
+        'name' => @$_POST['id'],
+        'pass' => randomPassword(), // note: do not md5 the password
+        'mail' => @$_POST['emails'][0]['value'],
+        'status' => 1,
+        'init' => @$_POST['emails'][0]['value'],
+        'roles' => $roles,
+
+        'field_name' => array(
+            'und' => array(
+                0 => array(
+                    'value' => @$_POST['displayName'],
+                ),
+            ),
+        ),
+        'field_phone_number' => array(
+            'und' => array(
+                0 => array(
+                    'value' => 'N/A',
+                ),
+            ),
+        ),
+    );
+
+    $account=user_save('', $new_user);
+
+    drupal_mail('user', 'register_no_approval_required', $_POST['email'], NULL, array('account' => $account), variable_get('site_mail', 'support@printbook.in'));
+    echo $_POST['id'];
+
+}
+
 
 function randomPassword() {
     $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
