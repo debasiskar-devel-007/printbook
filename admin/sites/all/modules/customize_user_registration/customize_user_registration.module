@@ -1,0 +1,71 @@
+<?php
+function customize_user_registration_form_alter(&$form, &$form_state, $form_id) {
+
+   //var_dump($form);
+    if($form_id=='user_register_form' ||$form_id=='user_profile_form') {
+
+
+	//echo 90;
+	//var_dump($GLOBALS['user']->roles);
+
+	if(array_key_exists(4,$GLOBALS['user']->roles))
+	{
+		$roles = array(
+		       4 => 'Site Admin',
+		       5=>'General Users'
+		        ); 
+
+		$form['account']['roles'] = array(
+	   	 '#type' => 'radios',
+	   	 '#title' => t('Roles'),
+	   	 '#default_value' => array(),
+	   	 '#options' => $roles,
+	  );
+	}
+
+        //exit;
+	}
+
+	if($form_id=='user_profile_form') {
+
+		$form['picture']['#access'] = FALSE;
+		$form['#after_build'][] = 'disabletimezone';
+		//var_dump($form);
+
+	}
+	//echo $form_id;
+	if($form_id=='homepage_banner_node_form'){
+		//echo 98;
+		//exit;
+		$form['#submit'][] = 'homepage_banner_save_redirect';
+	}
+}
+
+function homepage_banner_save_redirect($form, &$form_state){
+	//echo 98;
+	$form_state['redirect'] = 'home-banner-list';
+	//var_dump($form_state);
+	//exit;
+	//
+	//drupal_goto('/home-banner-list');
+}
+
+
+
+function disabletimezone($form_element, &$form_state) {
+	//note that I only have one location on this node type
+	$form_element['locations']['#access']=FALSE;
+	$form_element['timezone']['#access']=FALSE;
+
+	return $form_element;
+}
+
+function customize_user_registration_init() // init function called by defaulted when this module loaded by system
+{
+
+    //echo $GLOBALS['theme'];
+
+
+
+
+}

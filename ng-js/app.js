@@ -12,11 +12,13 @@ var printbook = angular.module('printbook', [
     'ngAnimate',
     'angularValidator',
     'ngCookies',
-    'ngDialog'
+    'ngDialog',
+    'ngFacebook'
    // 'homeControllers'
 ]);
 
-printbook.config(function($stateProvider, $urlRouterProvider) {
+printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) {
+    $facebookProvider.setAppId('130017683726086').setPermissions(['email','user_friends']);
     //
     // For any unmatched url, redirect to /state1
     $urlRouterProvider
@@ -133,6 +135,12 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
     )
         .state('testimonial',{
             url:"/testimonial",
+            resolve:{
+                'MyServiceData':function(MyService){
+                    // MyServiceData will also be injectable in your controller, if you don't want this you could create a new promise with the $q service
+                    return MyService.promise;
+                }
+            },
             views: {
 
                 // the main template will be placed here (relatively named)
@@ -162,8 +170,8 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                     controller: 'checkstattus'
                 },
                 'first-clearfix': {
-                    templateUrl: 'partials/testimonialbody.html'
-                   // controller: 'testimonialbody'
+                    templateUrl: 'partials/testimonialbody.html',
+                    controller: 'testimonialbody'
                 },
 
                 'svgs': {
@@ -281,6 +289,12 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
 
         .state('login',{
             url:"/login",
+            resolve:{
+                'MyServiceData':function(MyService){
+                    // MyServiceData will also be injectable in your controller, if you don't want this you could create a new promise with the $q service
+                    return MyService.promise;
+                }
+            },
             views: {
 
                 // the main template will be placed here (relatively named)
@@ -650,7 +664,20 @@ printbook.config(function($stateProvider, $urlRouterProvider) {
                 $scope.things = ["A", "Set", "Of", "Things"];
             }
         });
-});
+})
+
+.run(['$rootScope', '$window', function($rootScope, $window) {
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    $rootScope.$on('fb.load', function() {
+        $window.dispatchEvent(new Event('fb.load'));
+    });
+}]);
 
 
 
@@ -714,7 +741,7 @@ printbook.controller('firstclearfix', function($scope,$http,ngDialog,$state,MySe
 
 
 
-    var data=(MyService.doStuff());
+    var data=(MyService.doStuff('banner'));
     //alert(data);
 
     $scope.friends=(data);
@@ -764,27 +791,7 @@ printbook.controller('firstclearfix', function($scope,$http,ngDialog,$state,MySe
         $scope.init();
 
     },2000);
-    $scope.callhttp=function(){
 
-
-        $http({
-            method  : 'GET',
-            async:   false,
-            url     : 'http://admin.printbook.in/ngmodule/getbanners',
-            data    : $.param($scope.form),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(data) {
-
-            var x;
-
-            for(x in data) {
-                alert(data[x]+'=='+x);
-            }
-
-
-        });
-
-    }
 
 
 });
@@ -792,26 +799,121 @@ printbook.controller('firstclearfix', function($scope,$http,ngDialog,$state,MySe
 
 printbook.service('MyService', function($http) {
     var myData = null;
+    var testimonialjson = null;
 
     var promise = $http.get('http://admin.printbook.in/ngmodule/getbanners').success(function (data) {
         //alert(data);
         myData=data;
     });
+    var testimonialdata = $http.get('http://admin.printbook.in/ngmodule/gettestimonials').success(function (testimonials) {
+        //alert(testimonials);
+        testimonialjson=testimonials;
+    });
+
     return {
         promise:promise,
         setData: function (data) {
             myData = data;
         },
-        doStuff: function () {
+        doStuff: function (t) {
             //alert(myData);
+            if(t=='banner')
             //alert(data);
             return myData;//.getSomeData();
-        }
+            if(t=='testimonial'){
+               return testimonialjson;
+
+            }
+        },
+        putdata:function(userInfo){
+
+          /*  $scope.userinfo['name']=userInfo['displayName'];
+            $scope.userinfo['id']=userInfo['id'];
+            $scope.userinfo['email']=userInfo['emails'][0]['value'];*/
+            alert("uin"+userInfo)
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : 'http://admin.printbook.in/ngmodule/facebooklogin',
+                data    : {name:userInfo['displayName'],email:userInfo['emails'][0]['value'],id:userInfo['id']},  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(data) {
+                    alert(data);
+                    if(data>0){
+
+                        $cookieStore.put('useremail',userInfo['emails'][0]['value']);
+                        $cookieStore.put('userid',data);
+                        //var t=$cookieStore.get('userid');
+                        //alert($cookieStore.get('userid'));
+
+                        $state.go('index');
+                        //loginprocess.close();
+
+                    }
+                    else{
+                        alert(8);
+                        //$scope.msgFlag=true;
+                        $cookieStore.put('useremail','');
+                        $cookieStore.put('userid',data);
+
+                    }
+
+                });
+
+
+
+
+}
     };
 
 });
 
 
+
+
+
+
+
+printbook.controller('testimonialbody', function($scope,$http,ngDialog,$state,MyService) {
+
+
+
+
+
+
+
+
+    var data=(MyService.doStuff('testimonial'));
+    //alert(data);
+
+    $scope.testimonial=(data);
+
+
+    $scope.curPage = 0;
+    $scope.pageSize = 6;
+
+    $scope.numberOfPages = function()
+    {
+        return Math.ceil($scope.testimonial.length / $scope.pageSize);
+    };
+
+
+
+
+
+
+
+});
+
+printbook.filter('pagination', function()
+{
+    return function(input, start)
+    {
+        start = +start;
+        return input.slice(start);
+    };
+});
 
 printbook.controller('secondclearfix', function($scope) {
 
@@ -917,9 +1019,205 @@ printbook.controller('aboutbody', function($scope) {
 
 });
 
-printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies) {
+printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies,$facebook,MyService) {
+    $scope.triggeredLogin=0;
+    //var loginprocess
+    $scope.userinfo;
 
 
+    $scope.signedIn = false;
+
+    // Here we do the authentication processing and error handling.
+    // Note that authResult is a JSON object.
+    $scope.processAuth = function(authResult) {
+        // Do a check if authentication has been successful.
+        if(authResult['access_token']) {
+            // Successful sign in.
+            $scope.signedIn = true;
+            gapi.client.request(
+                {
+                    'path':'/plus/v1/people/me',
+                    'method':'GET',
+                    'callback': $scope.userInfoCallback
+                }
+            );
+
+            //     ...
+            // Do some work [1].
+            //     ...
+        } else {
+            // Error while signing in.
+            $scope.signedIn = false;
+            $scope.renderSignInButton();
+
+            // Report error.
+        }
+    };
+    $scope.processUserInfo=function(userInfo){
+        alert(userInfo);
+        var data=(MyService.putdata(userInfo));
+        alert(data);
+
+
+    };
+    $scope.userInfoCallback = function(userInfo) {
+        //alert((userInfo));
+        var useri;
+        var useremail;
+        //alert(userInfo['displayName']);
+        /*$scope.userinfo['name']=userInfo['displayName'];
+        $scope.userinfo['id']=userInfo['id'];
+        $scope.userinfo['email']=userInfo['emails'][0]['value'];
+        alert($scope.userinfo);*/
+
+
+
+        /*for(useri in userInfo){
+            //alert(userInfo[useri]+"=="+useri);
+        }
+        for(useremail in userInfo['emails'][0]){
+            alert(userInfo['emails'][0][useremail]+"=="+useremail);
+        }*/
+        $scope.$apply(function() {
+            //alert(34);
+            $scope.processUserInfo(userInfo);
+
+        });
+    };
+
+    // When callback is received, we need to process authentication.
+    $scope.signInCallback = function(authResult) {
+        $scope.$apply(function() {
+            //alert(authResult);
+
+            $scope.processAuth(authResult);
+        });
+    };
+
+
+
+    $scope.renderSignInButton = function() {
+        gapi.signin.render('signInButton',
+            {
+                'callback': $scope.signInCallback, // Function handling the callback.
+                'clientid': '1096579005756-57c2soasher3bbs6e6neetcbmduitc9f.apps.googleusercontent.com', // CLIENT_ID from developer console which has been explained earlier.
+                'requestvisibleactions': 'http://schemas.google.com/AddActivity', // Visible actions, scope and cookie policy wont be described now,
+                                                                                  // as their explanation is available in Google+ API Documentation.
+                'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+                'cookiepolicy': 'single_host_origin'
+            }
+        );
+    }
+
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+        $scope.status = $facebook.isConnected();
+        if($scope.status) {
+            $facebook.api('/me').then(function(user) {
+                //alert(user);
+                //var x;
+                //for(x in user) alert(user[x]+"=="+x);
+                $scope.user = user;
+            });
+            if($scope.triggeredLogin==1) {
+                $scope.loginToggle();
+                //$scope.loginToggle();
+
+                $scope.triggeredLogin=0;
+
+
+            }
+        }
+    });
+    var loginproces=
+
+    $scope.loginToggle = function() {
+
+
+        setTimeout(function(){
+            $scope.loginToggle1();
+        },3000);
+        $scope.loginToggle1();
+        //alert($scope.status);
+        if($scope.status) {
+
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : 'http://admin.printbook.in/ngmodule/facebooklogin',
+                data    : $.param($scope.user),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(data) {
+                //alert(data);
+                if(data>0){
+
+                    $cookieStore.put('useremail',$scope.user.email);
+                    $cookieStore.put('userid',data);
+                    //var t=$cookieStore.get('userid');
+                    //alert($cookieStore.get('userid'));
+
+                    $state.go('index');
+                    loginprocess.close();
+
+                }
+                else{
+                    $scope.msgFlag=true;
+                    $cookieStore.put('useremail','');
+                    $cookieStore.put('userid',data);
+
+                }
+
+            });
+
+           // $facebook.logout();
+        } else {
+            $facebook.login();
+            $scope.triggeredLogin=1;
+        }
+
+    };
+    $scope.loginToggle1 = function() {
+        //alert($scope.status);
+        if($scope.status) {
+
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : 'http://admin.printbook.in/ngmodule/facebooklogin',
+                data    : $.param($scope.user),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(data) {
+                //alert(data);
+                if(data>0){
+
+                    $cookieStore.put('useremail',$scope.user.email);
+                    $cookieStore.put('userid',data);
+                    //var t=$cookieStore.get('userid');
+                    //alert($cookieStore.get('userid'));
+
+                    $state.go('index');
+                    //loginprocess.close();
+
+                }
+                else{
+                    $scope.msgFlag=true;
+                    $cookieStore.put('useremail','');
+                    $cookieStore.put('userid',data);
+
+                }
+
+            });
+
+            // $facebook.logout();
+        } else {
+            //$facebook.login();
+            $scope.triggeredLogin=1;
+            //$scope.loginToggle();
+        }
+
+    };
 
     $scope.submitloginForm = function(){
         //alert("Form submitted");
@@ -939,7 +1237,7 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
                 //var t=$cookieStore.get('userid');
                 //alert($cookieStore.get('userid'));
 
-                $state.go('index')
+                $state.go('index');
             }
             else{
                 $scope.msgFlag=true;
@@ -1032,7 +1330,7 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
             data    : {username: username},  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
-            alert(data);
+            //alert(data);
             if(data==false){
                 return true;
 
@@ -1177,8 +1475,8 @@ printbook.controller('autologin', function($scope,$cookieStore,$cookies,$statePa
         }) .success(function(data) {
             if(data!=0){
 
-                alert(data['mail']);
-                alert(data['uid']);
+                //alert(data['mail']);
+                //alert(data['uid']);
                 $cookieStore.put('useremail',data['mail']);
                 $cookieStore.put('userid',data['uid']);
                 //var t=$cookieStore.get('userid');

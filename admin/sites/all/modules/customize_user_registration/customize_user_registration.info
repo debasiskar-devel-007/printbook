@@ -1,0 +1,3 @@
+core ="7.x"
+description="This is to override drupal basic user registration form"
+name ="Customer Registration Customization "

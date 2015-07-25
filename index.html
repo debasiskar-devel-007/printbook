@@ -32,13 +32,18 @@
 
 
 
-        <script src="ng-js/angular.js"></script>
-        <script src="ng-js/angular-animate.min.js"></script>
-        <script src="ng-js/angular-ui-router.js"></script>
-        <script src="ng-js/app.js"></script>
-        <script src="ng-js/angular-validator.js"></script>
-        <script src="ng-js/angular-cookies.js"></script>
-        <script src="ng-js/ngDialog.js"></script>
+    <script src="ng-js/angular.js"></script>
+    <script src="ng-js/angular-animate.min.js"></script>
+    <script src="ng-js/angular-ui-router.js"></script>
+    <script src="ng-js/app.js"></script>
+    <script src="ng-js/angular-validator.js"></script>
+    <script src="ng-js/angular-cookies.js"></script>
+    <script src="ng-js/ngDialog.js"></script>
+    <script src="ng-js/ngFacebook.js"></script>
+    <script src="ng-js/auth0-angular-0.js"></script>
+    <script src="js/jquery.min.js"></script>
+
+
 
 
 
@@ -47,7 +52,14 @@
 
 
 
+<script type="text/javascript">
 
+    (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+</script>
 
 
 
@@ -56,6 +68,7 @@
 
 </head>
 <body ng-app="printbook">
+<div id="fb-root"></div>
 
 <!-- We'll also add some navigation: -->
 <!--<a ui-sref="loader">loader</a>
@@ -91,7 +104,7 @@
 </div>
 
 
-<script src="js/jquery.min.js"></script>
+
 <script src="js/bootstrap.min.js"></script>
 <script src="js/retina.js"></script>
 <script src="js/carousel.js"></script>

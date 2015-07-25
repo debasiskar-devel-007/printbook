@@ -1,0 +1,453 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: debasis
+ * Date: 16/6/15
+ * Time: 12:04 AM
+ */
+
+function ngmodule_init() // init function called by defaulted when this module loaded by system
+{
+
+    //echo $GLOBALS['theme'];
+    //echo user_authenticate('debasis','Pp@ss1234');
+
+//echo "kl";
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+
+
+}
+
+function ngmodule_permission() {
+    return array(
+        'ngmodule anonymous' => array(
+            'title' => t('Anonymous Actions '),
+            'description' => t('Anonymous Actions.'),
+        ),
+        'ngmodule loggedin' => array(
+            'title' => t('Logged in Actions '),
+            'description' => t('Logged in Actions.'),
+        ),
+        'ngmodule anonymous' => array(
+            'title' => t('Admin Actions '),
+            'description' => t('Admin Actions.'),
+        ),
+        
+    );
+}
+
+
+function ngmodule_menu() {
+    $items = array();
+    $items['ngmodule/login'] = array(
+        'title' => 'login',
+        'page callback' => 'login',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+    $items['ngmodule/register'] = array(
+        'title' => 'Register',
+        'page callback' => 'register',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+
+    $items['ngmodule/checkusername'] = array(
+        'title' => 'Check User Name',
+        'page callback' => 'checkusername',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+
+    $items['ngmodule/autologin'] = array(
+        'title' => 'Autologin',
+        'page callback' => 'autologin',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+    $items['ngmodule/contactcreate'] = array(
+        'title' => 'contactcreate',
+        'page callback' => 'contactcreate',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+
+    $items['ngmodule/getbanners'] = array(
+        'title' => 'getbanners',
+        'page callback' => 'getbanners',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );$items['ngmodule/gettestimonials'] = array(
+        'title' => 'gettestimonials',
+        'page callback' => 'gettestimonials',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );$items['ngmodule/facebooklogin'] = array(
+        'title' => 'facebooklogin',
+        'page callback' => 'facebooklogin',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+
+    
+
+    return $items;
+}
+
+function login(){
+//var_dump($_POST); 
+
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    $user = user_load_by_mail(trim(@$_POST['email']));
+//var_dump($user->name);
+    $x= user_authenticate(@$user->name,@$_POST['password']);
+    if($x>0) echo $x ;
+    else echo 0;
+
+}
+
+function register(){
+//var_dump($_POST); 
+
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    if(checkusername($_POST['username'])!=0){
+        echo 'username';
+        return;
+    }
+
+    $user = user_load_by_mail(trim(@$_POST['email']));
+    if($user->uid!=0)
+    {
+        echo 'email';
+        return;
+
+    }
+    $roles = array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        5 => 'General Users',
+    );
+    $new_user = array(
+        'name' => $_POST['username'],
+        'pass' => $_POST['password'], // note: do not md5 the password
+        'mail' => $_POST['email'],
+        'status' => 1,
+        'init' => $_POST['email'],
+        'roles' => $roles,
+
+        'field_name' => array(
+            'und' => array(
+                0 => array(
+                    'value' => $_POST['fullname'],
+                ),
+            ),
+        ),
+        'field_phone_number' => array(
+            'und' => array(
+                0 => array(
+                    'value' => $_POST['password'],
+                ),
+            ),
+        ),
+    );
+
+    $account=user_save('', $new_user);
+
+    drupal_mail('user', 'register_no_approval_required', $_POST['email'], NULL, array('account' => $account), variable_get('site_mail', 'support@printbook.in'));
+    echo "true";
+
+}
+
+
+
+
+
+function facebooklogin(){
+//var_dump($_POST);
+
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+
+
+    $user = user_load_by_mail(trim(@$_POST['email']));
+    if($user->uid!=0)
+    {
+        echo $user->uid;
+        return;
+
+    }
+    $roles = array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        5 => 'General Users',
+    );
+    $new_user = array(
+        'name' => $_POST['id'],
+        'pass' => randomPassword(), // note: do not md5 the password
+        'mail' => $_POST['email'],
+        'status' => 1,
+        'init' => $_POST['email'],
+        'roles' => $roles,
+
+        'field_name' => array(
+            'und' => array(
+                0 => array(
+                    'value' => $_POST['name'],
+                ),
+            ),
+        ),
+        'field_phone_number' => array(
+            'und' => array(
+                0 => array(
+                    'value' => 'N/A',
+                ),
+            ),
+        ),
+    );
+
+    $account=user_save('', $new_user);
+
+    drupal_mail('user', 'register_no_approval_required', $_POST['email'], NULL, array('account' => $account), variable_get('site_mail', 'support@printbook.in'));
+    echo $_POST['id'];
+
+}
+
+function randomPassword() {
+    $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+    $pass = array(); //remember to declare $pass as an array
+    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    for ($i = 0; $i < 8; $i++) {
+        $n = rand(0, $alphaLength);
+        $pass[] = $alphabet[$n];
+    }
+    return implode($pass); //turn the array into a string
+}
+
+
+function checkusername($username)
+{
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    $x= user_load_by_name(trim(@$username));
+
+    return ($x->uid);
+
+}
+
+function autologin()
+{
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    //$x= user_load_by_name(trim(@$_POST['username']));
+    $x= user_load_by_name(trim('asdasd'));
+    $data['uid']=$x->uid;
+    $data['mail']=$x->mail;
+    if($x->uid>0)
+
+        echo json_encode($data);
+    else echo 0;
+
+}
+
+function contactcreate()
+{
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    $node = new stdClass();
+    $node->type = 'contact';
+    node_object_prepare($node);
+
+    $node->title    = 'Node Created Programmatically on ' . date('c');
+    $node->language = LANGUAGE_NONE;
+    $node->status=1;
+
+    $node->field_name_c[$node->language][0]['value'] = $_POST['fullname'];
+    $node->field_email_c[$node->language][0]['value'] = $_POST['email'];
+    $node->field_phone_c[$node->language][0]['value'] = $_POST['phone'];
+    $node->field_message_c[$node->language][0]['value'] = $_POST['message'];
+
+
+    $path = 'content/my-lipsum-' . date('YmdHis');
+    $node->path = array('alias' => $path);
+
+    $x=node_save($node);
+    sendcontactemail($_POST['email']);
+//var_dump($x);
+
+}
+
+
+
+
+
+function getbanners(){
+
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    $query = new EntityFieldQuery();
+
+    $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'homepage_banner')
+        ->propertyCondition('status', NODE_PUBLISHED)
+        //->fieldCondition('field_news_types', 'value', 'spotlight', '=')
+        ->fieldCondition('field_active_banner', 'value', 1, '=')
+        //->fieldCondition('field_faculty_tag', 'tid', $value)
+        //->fieldCondition('field_news_publishdate', 'value', $year . '%', 'like')
+        ->fieldOrderBy('field_home_banner_priority', 'value', 'ASC')
+        ->range(0, 10)
+        ->addMetaData('account', user_load(1)); // Run the query as user 1.
+
+    $result = $query->execute();
+
+    if (isset($result['node'])) {
+        $news_items_nids = array_keys($result['node']);
+        $news_items = entity_load('node', $news_items_nids);
+    }
+
+//var_dump($news_items);
+    $i=0;
+    foreach($news_items as $val){
+
+//var_dump($val->field_home_banner['und'][0]['filename']);
+//var_dump($val->field_home_banner['und'][0]['uri']);
+//echo "<br/>";
+
+        $uri = $val->field_home_banner['und'][0]['uri'];
+        $uri=str_replace('public://','',$uri);
+        if ($wrapper = file_stream_wrapper_get_instance_by_uri($uri)) {
+            $path = $wrapper->realpath();
+        }
+        $arr[$i]['path'] =($uri);
+//$arr[$i]['path'] =file_create_url($uri);
+        $arr[$i]['file'] =$val->field_home_banner['und'][0]['filename'];
+        $i++;
+    }
+    echo json_encode($arr);
+}
+
+
+function sendcontactemail($email='test@gmail.com'){
+    $language=LANGUAGE_NONE;
+    drupal_mail('ngmodule', 'mymail', $email, $language, $params = array('username' => 'John Potato'), $from = NULL, $send = TRUE);
+}
+
+
+function ngmodule_mail ($key, &$message, $params) {
+    switch ($key) {
+        case 'mymail':
+            // Set headers etc
+            $message['to'] = 'debasiskar007@gmail.com';
+            $message['subject'] = t('Thank You');
+            //$message['body'][] = t('Hello @username,', array('@username' => $params['username']));
+            $message['body'][] = t('Thank You for getting in touch with us , we will get back to you asap !!');
+            break;
+    }
+}
+
+function gettestimonials(){
+
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: http://printbook.in');  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+    $query = new EntityFieldQuery();
+
+    $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'testimonial')
+        ->propertyCondition('status', NODE_PUBLISHED)
+        //->fieldCondition('field_news_types', 'value', 'spotlight', '=')
+        ->fieldCondition('field_active_t', 'value', 1, '=')
+        //->fieldCondition('field_faculty_tag', 'tid', $value)
+        //->fieldCondition('field_news_publishdate', 'value', $year . '%', 'like')
+        ->fieldOrderBy('field_priority_t', 'value', 'ASC')
+        ->range(0, 10)
+        ->addMetaData('account', user_load(1)); // Run the query as user 1.
+
+    $result = $query->execute();
+
+    if (isset($result['node'])) {
+        $news_items_nids = array_keys($result['node']);
+        $news_items = entity_load('node', $news_items_nids);
+    }
+
+    //var_dump($news_items);
+    // echo "<br/>";
+    $i=0;
+    foreach($news_items as $val){
+
+        $arr[$i]['title']=$val->title;
+        //echo "<br/>";
+        $arr[$i]['message']=$val->field_message['und'][0]['value'];
+        // echo "<br/>";
+        //echo $arr[$i]['image']=@$val->field_user_image['und'][0]['uri'];
+        if(@$val->field_user_image['und'][0]['uri']!='') $arr[$i]['image']='http://admin.printbook.in/sites/default/files/styles/testimonial-user/public/'.str_replace('public://','',@$val->field_user_image['und'][0]['uri']);
+
+        else $arr[$i]['image'] = 'http://admin.printbook.in/sites/default/files/styles/testimonial-user/public/c1.jpg';
+
+
+        $i++;
+    }
+
+    echo json_encode($arr);
+
+}
+

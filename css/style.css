@@ -1045,7 +1045,7 @@
 	     -moz-transition-property:    -moz-transform, opacity;
 	          transition-property:         transform, opacity;
 	}
-	.pagination li a {
+	.pagination li button {
 		border-radius: 4px;
 		margin-right: 5px;
 	}
@@ -1883,7 +1883,7 @@
 	.header-bottom p a {
 		color:#89b124;	
 	}
-	.pagination li a,
+	.pagination li button,
 	.img-rotate .badge,
 	.visible-buttons a,
 	.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
