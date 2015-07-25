@@ -341,6 +341,55 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
 
     )
 
+
+        .state('googlelogin',{
+            url:"/googlelogin",
+
+            views: {
+
+                // the main template will be placed here (relatively named)
+                '': { templateUrl: 'about.html' },
+
+                // the child views will be defined here (absolutely named)
+                'loader': { templateUrl: 'partials/loader.html' ,
+                    controller:'loader'
+
+                },
+
+                // for column two, we'll define a separate controller
+                'modal': {
+                    templateUrl: 'partials/modal.html'
+                    //controller: 'scotchController'
+                },
+                'topbar': {
+                    templateUrl: 'partials/topbar.html'
+                    //controller: 'scotchController'
+                },
+                'header': {
+                    templateUrl: 'partials/inner-header.html'
+                    //controller: 'scotchController'
+                },
+                'header-bottom': {
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
+                },
+                'first-clearfix': {
+                    templateUrl: 'partials/login.html',
+                    controller: 'googlelogin'
+                },
+
+                'svgs': {
+                    templateUrl: 'partials/svgs.html'
+                    //controller: 'scotchController'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html'
+                    //controller: 'scotchController'
+                }
+            }
+        }
+
+    )
         .state('register',{
             url:"/register",
             views: {
@@ -832,34 +881,7 @@ printbook.service('MyService', function($http) {
             $scope.userinfo['email']=userInfo['emails'][0]['value'];*/
             alert("uin"+userInfo)
 
-            $http({
-                method  : 'POST',
-                async:   false,
-                url     : 'http://admin.printbook.in/ngmodule/facebooklogin',
-                data    : {name:userInfo['displayName'],email:userInfo['emails'][0]['value'],id:userInfo['id']},  // pass in data as strings
-                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }) .success(function(data) {
-                    alert(data);
-                    if(data>0){
 
-                        $cookieStore.put('useremail',userInfo['emails'][0]['value']);
-                        $cookieStore.put('userid',data);
-                        //var t=$cookieStore.get('userid');
-                        //alert($cookieStore.get('userid'));
-
-                        $state.go('index');
-                        //loginprocess.close();
-
-                    }
-                    else{
-                        alert(8);
-                        //$scope.msgFlag=true;
-                        $cookieStore.put('useremail','');
-                        $cookieStore.put('userid',data);
-
-                    }
-
-                });
 
 
 
@@ -870,7 +892,39 @@ printbook.service('MyService', function($http) {
 });
 
 
+printbook.controller('googlelogin',function($scope,$http,$state,$cooke){
 
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : 'http://admin.printbook.in/ngmodule/facebooklogin',
+        data    : {name:userInfo['displayName'],email:userInfo['emails'][0]['value'],id:userInfo['id']},  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        alert(data);
+        if(data>0){
+
+            $cookieStore.put('useremail',userInfo['emails'][0]['value']);
+            $cookieStore.put('userid',data);
+            //var t=$cookieStore.get('userid');
+            //alert($cookieStore.get('userid'));
+
+            $state.go('index');
+            //loginprocess.close();
+
+        }
+        else{
+            alert(8);
+            //$scope.msgFlag=true;
+            $cookieStore.put('useremail','');
+            $cookieStore.put('userid',data);
+
+        }
+
+    });
+
+});
 
 
 
@@ -1055,8 +1109,8 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
     };
     $scope.processUserInfo=function(userInfo){
         alert(userInfo);
-        var data=(MyService.putdata(userInfo));
-        alert(data);
+        $cookieStore.put('googledata',userInfo);
+        state.go('googlelogin');
 
 
     };
