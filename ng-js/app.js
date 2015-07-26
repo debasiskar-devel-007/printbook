@@ -285,6 +285,54 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
 
     )
 
+        .state('customizeproduct',{
+            url:"/customizeproduct/:productId",
+            views: {
+
+                // the main template will be placed here (relatively named)
+                '': { templateUrl: 'about.html' },
+
+                // the child views will be defined here (absolutely named)
+                'loader': { templateUrl: 'partials/loader.html' ,
+                    controller:'loader'
+
+                },
+
+                // for column two, we'll define a separate controller
+                'modal': {
+                    templateUrl: 'partials/modal.html'
+                    //controller: 'scotchController'
+                },
+                'topbar': {
+                    templateUrl: 'partials/topbar.html'
+                    //controller: 'scotchController'
+                },
+                'header': {
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
+                },
+                'header-bottom': {
+                    templateUrl: 'partials/header-bottom.html',
+                    controller: 'checkstattus'
+                },
+                'first-clearfix': {
+                    templateUrl: 'partials/customize.html',
+                    controller: 'customizeproduct'
+                },
+
+                'svgs': {
+                    templateUrl: 'partials/svgs.html'
+                    //controller: 'scotchController'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html'
+                    //controller: 'scotchController'
+                }
+            }
+        }
+
+    )
+
 
 
         .state('login',{
@@ -1661,10 +1709,10 @@ printbook.controller('customize', function($scope,$cookieStore,$cookies,$statePa
             data    : {category_id: $stateParams.categoryId},  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
-           alert(data);
+           //alert(data);
             if(data!=0){
                 $scope.products=data;
-                alert(7);
+                //alert(7);
 
 
 
@@ -1675,7 +1723,7 @@ printbook.controller('customize', function($scope,$cookieStore,$cookies,$statePa
                  $cookieStore.put('useremail','');
                  $cookieStore.put('userid',data);*/
                 $scope.showval=true;
-                alert(8);
+                //alert(8);
                 $scope.products=false;
 
 
@@ -1695,6 +1743,25 @@ printbook.controller('customize', function($scope,$cookieStore,$cookies,$statePa
 
 });
 
+
+printbook.controller('customizeproduct', function($scope,$cookieStore,$cookies,$stateParams,$http,$state) {
+
+    //alert($stateParams.categoryId);
+
+    $scope.init = function () {
+
+
+
+
+
+        alert($stateParams.productId);
+
+
+    };
+
+    $scope.init();
+
+});
 
 
 printbook.controller('autologin', function($scope,$cookieStore,$cookies,$stateParams,$http,$state) {

@@ -46,7 +46,7 @@
         <div id="shoplist" class="row" ng-if="products != false">
             <div class="col-md-3 col-sm-6" ng-repeat ="product in products ">
                 <div class="shop-item-list entry" >
-                    <a class="hover-image" ui-sref="customize-product/({productId: product.id})" title="">
+                    <a class="hover-image" ui-sref="customizeproduct({productId: product.id})" title="">
                         <div class="img-rotate" >
 
                             <h2 align="center" style="background:#F3F8FE; color:#1B92D1">{{product.name}}<img src="http://admin.printbook.in/sites/default/files/styles/product_list/public/{{product.image}}" alt="">
@@ -56,7 +56,7 @@
                     </a>
                     <div class="shop-item-title clearfix">
                         <div class="shopmeta">
-                            <a ui-sref="customize-product/({productId: product.id})"><span class="pull-left">Customize Now</span></a>
+                            <a ui-sref="customizeproduct({productId: product.id})"><span class="pull-left">Customize Now</span></a>
 
                         </div><!-- end shop-meta -->
                     </div><!-- end shop-item-title -->
