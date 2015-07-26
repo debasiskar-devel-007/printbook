@@ -26,6 +26,10 @@ function customize_user_registration_form_alter(&$form, &$form_state, $form_id) 
         //exit;
 	}
 
+	if($form_id=='products_node_form') {
+        $form['title']['#access'] = FALSE;
+
+    }
 	if($form_id=='user_profile_form') {
 
 		$form['picture']['#access'] = FALSE;
@@ -33,6 +37,16 @@ function customize_user_registration_form_alter(&$form, &$form_state, $form_id) 
 		//var_dump($form);
 
 	}
+
+    if($form_id=='category_node_form') {
+        //echo 98;
+
+        $form['title']['#access'] = FALSE;
+        //$form['#after_build'][] = 'disabletimezone';
+        //var_dump($form);
+
+    }
+
 	//echo $form_id;
 	if($form_id=='homepage_banner_node_form'){
 		//echo 98;

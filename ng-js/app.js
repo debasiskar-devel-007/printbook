@@ -14,7 +14,7 @@ var printbook = angular.module('printbook', [
     'ngCookies',
     'ngDialog',
     'ngFacebook'
-   // 'homeControllers'
+    // 'homeControllers'
 ]);
 
 printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) {
@@ -55,8 +55,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -110,8 +110,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -148,7 +148,7 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
 
                 // the child views will be defined here (absolutely named)
                 'loader': { templateUrl: 'partials/loader.html' ,
-                            controller:'loader'
+                    controller:'loader'
 
                 },
 
@@ -162,8 +162,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -211,8 +211,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -238,7 +238,7 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
 
 
         .state('customize',{
-            url:"/customize",
+            url:"/customize/:categoryId",
             views: {
 
                 // the main template will be placed here (relatively named)
@@ -260,16 +260,16 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
                     controller: 'checkstattus'
                 },
                 'first-clearfix': {
-                    templateUrl: 'partials/customize.html'
-                    // controller: 'testimonialbody'
+                    templateUrl: 'partials/customize.html',
+                     controller: 'customize'
                 },
 
                 'svgs': {
@@ -316,8 +316,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -325,7 +325,7 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/login.html',
-                     controller: 'login'
+                    controller: 'login'
                 },
 
                 'svgs': {
@@ -366,8 +366,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -413,8 +413,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -462,8 +462,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -512,8 +512,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -560,8 +560,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     //controller: 'scotchController'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -610,8 +610,8 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                     controller: 'logout'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html',
@@ -656,19 +656,19 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
                 },
                 'topbar': {
                     templateUrl: 'partials/topbar.html'
-                   // controller: 'logout'
+                    // controller: 'logout'
                 },
                 'header': {
-                    templateUrl: 'partials/inner-header.html'
-                    //controller: 'scotchController'
+                    templateUrl: 'partials/inner-header.html',
+                    controller: 'header'
                 },
                 'header-bottom': {
                     templateUrl: 'partials/header-bottom.html'
-                   // controller: 'checkstattus'
+                    // controller: 'checkstattus'
                 },
                 'first-clearfix': {
                     templateUrl: 'partials/disc.html',
-                     controller: 'autologin'
+                    controller: 'autologin'
                 },
 
                 'svgs': {
@@ -715,18 +715,18 @@ printbook.config(function($stateProvider, $urlRouterProvider,$facebookProvider) 
         });
 })
 
-.run(['$rootScope', '$window', function($rootScope, $window) {
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    $rootScope.$on('fb.load', function() {
-        $window.dispatchEvent(new Event('fb.load'));
-    });
-}]);
+    .run(['$rootScope', '$window', function($rootScope, $window) {
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        $rootScope.$on('fb.load', function() {
+            $window.dispatchEvent(new Event('fb.load'));
+        });
+    }]);
 
 
 
@@ -779,8 +779,8 @@ printbook.controller('firstclearfix', function($scope,$http,ngDialog,$state,MySe
                 plain: true
             });
 
-           // ngDialog.closeAll();
-           // $scope.form.$setPristine();
+            // ngDialog.closeAll();
+            // $scope.form.$setPristine();
             //$scope.contact.$setUntouched();
             $state.reload();
 
@@ -846,9 +846,35 @@ printbook.controller('firstclearfix', function($scope,$http,ngDialog,$state,MySe
 });
 
 
+
+
+
+printbook.controller('header', function($scope,$http,ngDialog,$state,MyService) {
+
+
+
+
+
+
+
+    var data=(MyService.doStuff('category'));
+    ///alert(data);
+
+    $scope.categories=(data);
+
+
+
+
+
+});
+
+
+
+
 printbook.service('MyService', function($http) {
     var myData = null;
     var testimonialjson = null;
+    var categoryjson = null;
 
     var promise = $http.get('http://admin.printbook.in/ngmodule/getbanners').success(function (data) {
         //alert(data);
@@ -857,6 +883,10 @@ printbook.service('MyService', function($http) {
     var testimonialdata = $http.get('http://admin.printbook.in/ngmodule/gettestimonials').success(function (testimonials) {
         //alert(testimonials);
         testimonialjson=testimonials;
+    });
+    var categorydata = $http.get('http://admin.printbook.in/ngmodule/getcategories').success(function (category) {
+        //alert(testimonials);
+        categoryjson=category;
     });
 
     return {
@@ -868,25 +898,30 @@ printbook.service('MyService', function($http) {
             //alert(myData);
             if(t=='banner')
             //alert(data);
-            return myData;//.getSomeData();
+                return myData;//.getSomeData();
             if(t=='testimonial'){
-               return testimonialjson;
+                return testimonialjson;
+
+            }
+
+            if(t=='category'){
+                return categoryjson;
 
             }
         },
         putdata:function(userInfo){
 
-          /*  $scope.userinfo['name']=userInfo['displayName'];
-            $scope.userinfo['id']=userInfo['id'];
-            $scope.userinfo['email']=userInfo['emails'][0]['value'];*/
-            alert("uin"+userInfo)
+            /*  $scope.userinfo['name']=userInfo['displayName'];
+             $scope.userinfo['id']=userInfo['id'];
+             $scope.userinfo['email']=userInfo['emails'][0]['value'];*/
+            //alert("uin"+userInfo)
 
 
 
 
 
 
-}
+        }
     };
 
 });
@@ -902,7 +937,7 @@ printbook.controller('googlelogin',function($scope,$http,$state,$cooke){
         data    : {name:userInfo['displayName'],email:userInfo['emails'][0]['value'],id:userInfo['id']},  // pass in data as strings
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
     }) .success(function(data) {
-        alert(data);
+        //alert(data);
         if(data>0){
 
             $cookieStore.put('useremail',userInfo['emails'][0]['value']);
@@ -1108,9 +1143,10 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
         }
     };
     $scope.processUserInfo=function(userInfo){
-        alert(userInfo);
+        //alert(userInfo);
         $cookieStore.put('googledata',userInfo);
-        state.go('googlelogin');
+        //state.go('googlelogin');
+        $scope.loginToggle2(userInfo);
 
 
     };
@@ -1120,18 +1156,18 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
         var useremail;
         //alert(userInfo['displayName']);
         /*$scope.userinfo['name']=userInfo['displayName'];
-        $scope.userinfo['id']=userInfo['id'];
-        $scope.userinfo['email']=userInfo['emails'][0]['value'];
-        alert($scope.userinfo);*/
+         $scope.userinfo['id']=userInfo['id'];
+         $scope.userinfo['email']=userInfo['emails'][0]['value'];
+         alert($scope.userinfo);*/
 
 
 
         /*for(useri in userInfo){
-            //alert(userInfo[useri]+"=="+useri);
-        }
-        for(useremail in userInfo['emails'][0]){
-            alert(userInfo['emails'][0][useremail]+"=="+useremail);
-        }*/
+         //alert(userInfo[useri]+"=="+useri);
+         }
+         for(useremail in userInfo['emails'][0]){
+         alert(userInfo['emails'][0][useremail]+"=="+useremail);
+         }*/
         $scope.$apply(function() {
             //alert(34);
             $scope.processUserInfo(userInfo);
@@ -1185,13 +1221,65 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
     });
     var loginproces=
 
+        $scope.loginToggle = function() {
+
+
+            setTimeout(function(){
+                $scope.loginToggle1();
+            },3000);
+            $scope.loginToggle1();
+            //alert($scope.status);
+            if($scope.status) {
+
+
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : 'http://admin.printbook.in/ngmodule/facebooklogin',
+                    data    : $.param($scope.user),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }) .success(function(data) {
+                    //alert(data);
+                    if(data>0){
+
+                        $cookieStore.put('useremail',$scope.user.email);
+                        $cookieStore.put('userid',data);
+                        //var t=$cookieStore.get('userid');
+                        //alert($cookieStore.get('userid'));
+
+                        $state.go('index');
+                        loginprocess.close();
+
+                    }
+                    else{
+                        $scope.msgFlag=true;
+                        $cookieStore.put('useremail','');
+                        $cookieStore.put('userid',data);
+
+                    }
+
+                });
+
+                // $facebook.logout();
+            } else {
+                $facebook.login();
+                $scope.triggeredLogin=1;
+            }
+
+        };
+
+
+
+
+
+
     $scope.loginToggle = function() {
 
 
         setTimeout(function(){
             $scope.loginToggle1();
         },3000);
-        $scope.loginToggle1();
+        $scope.loginToggle2();
         //alert($scope.status);
         if($scope.status) {
 
@@ -1199,7 +1287,7 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
             $http({
                 method  : 'POST',
                 async:   false,
-                url     : 'http://admin.printbook.in/ngmodule/facebooklogin',
+                url     : 'http://admin.printbook.in/ngmodule/googlelogin',
                 data    : $.param($scope.user),  // pass in data as strings
                 headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
             }) .success(function(data) {
@@ -1224,13 +1312,19 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
 
             });
 
-           // $facebook.logout();
+            // $facebook.logout();
         } else {
             $facebook.login();
             $scope.triggeredLogin=1;
         }
 
     };
+
+
+
+
+
+
     $scope.loginToggle1 = function() {
         //alert($scope.status);
         if($scope.status) {
@@ -1247,6 +1341,48 @@ printbook.controller('login', function($scope,$http,$state,$cookieStore,$cookies
                 if(data>0){
 
                     $cookieStore.put('useremail',$scope.user.email);
+                    $cookieStore.put('userid',data);
+                    //var t=$cookieStore.get('userid');
+                    //alert($cookieStore.get('userid'));
+
+                    $state.go('index');
+                    //loginprocess.close();
+
+                }
+                else{
+                    $scope.msgFlag=true;
+                    $cookieStore.put('useremail','');
+                    $cookieStore.put('userid',data);
+
+                }
+
+            });
+
+            // $facebook.logout();
+        } else {
+            //$facebook.login();
+            $scope.triggeredLogin=1;
+            //$scope.loginToggle();
+        }
+
+    };
+
+    $scope.loginToggle2 = function(userInfo) {
+        //alert($scope.status);
+        if($scope.status) {
+
+
+            $http({
+                method  : 'POST',
+                async:   false,
+                url     : 'http://admin.printbook.in/ngmodule/googlelogin',
+                data    : $.param(userInfo),  // pass in data as strings
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }) .success(function(data) {
+                //alert(data);
+                if(data>0){
+
+                    $cookieStore.put('useremail',userInfo['emails'][0]['value']);
                     $cookieStore.put('userid',data);
                     //var t=$cookieStore.get('userid');
                     //alert($cookieStore.get('userid'));
@@ -1359,7 +1495,7 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
 
 
         /*if($scope.usernamecheckserver(username)!=true)
-            return 'User name already exists';*/
+         return 'User name already exists';*/
 
 
 
@@ -1435,9 +1571,9 @@ printbook.controller('register', function($scope,$http,$state,$cookieStore,$cook
                 $scope.usermsgFlag=true;
 
             }
-             if(data=='email'){
-               // $scope.msgFlag=true;
-                 $scope.emailmsgFlag=true;
+            if(data=='email'){
+                // $scope.msgFlag=true;
+                $scope.emailmsgFlag=true;
 
 
             }
@@ -1493,9 +1629,69 @@ printbook.controller('checkstattus', function($scope,$cookieStore,$cookies) {
 
     };
 
-        $scope.init();
+    $scope.init();
 
 
+
+});
+
+printbook.controller('customize', function($scope,$cookieStore,$cookies,$stateParams,$http,$state) {
+
+    //alert($stateParams.categoryId);
+
+    $scope.init = function () {
+        // check if there is query in url
+        // and fire search in case its value is not empty
+
+        /*if($cookieStore.get('userid')>0){
+         //alert(45);
+         $scope.loginFlag=false;
+         $scope.logoutFlag=true;
+
+         }
+         else{
+         $scope.loginFlag=true;
+         $scope.logoutFlag=false;
+         }*/
+
+        $http({
+            method  : 'GET',
+            async:   false,
+            url     : 'http://admin.printbook.in/ngmodule/getproductlist?category_id='+$stateParams.categoryId,
+            data    : {category_id: $stateParams.categoryId},  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+           alert(data);
+            if(data!=0){
+                $scope.products=data;
+                alert(7);
+
+
+
+                //$state.go('index');
+            }
+            else{
+                /*$scope.msgFlag=true;
+                 $cookieStore.put('useremail','');
+                 $cookieStore.put('userid',data);*/
+                $scope.showval=true;
+                alert(8);
+                $scope.products=false;
+
+
+            }
+
+        });
+
+
+
+
+        //alert($stateParams.userId);
+
+
+    };
+
+    $scope.init();
 
 });
 
@@ -1510,15 +1706,15 @@ printbook.controller('autologin', function($scope,$cookieStore,$cookies,$statePa
         // and fire search in case its value is not empty
 
         /*if($cookieStore.get('userid')>0){
-            //alert(45);
-            $scope.loginFlag=false;
-            $scope.logoutFlag=true;
+         //alert(45);
+         $scope.loginFlag=false;
+         $scope.logoutFlag=true;
 
-        }
-        else{
-            $scope.loginFlag=true;
-            $scope.logoutFlag=false;
-        }*/
+         }
+         else{
+         $scope.loginFlag=true;
+         $scope.logoutFlag=false;
+         }*/
 
         $http({
             method  : 'POST',
@@ -1540,8 +1736,8 @@ printbook.controller('autologin', function($scope,$cookieStore,$cookies,$statePa
             }
             else{
                 /*$scope.msgFlag=true;
-                $cookieStore.put('useremail','');
-                $cookieStore.put('userid',data);*/
+                 $cookieStore.put('useremail','');
+                 $cookieStore.put('userid',data);*/
                 ngDialog.open({
                     template: '<p>Your Email verification was unsuccessful , try again!! </p>',
                     plain: true

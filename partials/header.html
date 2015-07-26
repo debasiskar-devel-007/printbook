@@ -19,22 +19,20 @@
 
                         </li><!-- end mega menu -->
                         <li><a ui-sref="about">About</a></li>
-                        <li class="dropdown ttmenu-half"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Shopping <b class="fa fa-angle-down"></b></a>
+                        <li class="dropdown ttmenu-half"><a href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle">Shopping <b class="fa fa-angle-down"></b></a>
                             <ul class="dropdown-menu pink">
                                 <li>
                                     <div class="ttmenu-content">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="box">
-                                                    <ul>
-                                                        <li><a ui-sref="customize">Copy And Print</a></li>
-                                                        <li><a ui-sref="customize">Project <span class="badge">NEW</span></a></li>
-                                                        <li><a ui-sref="customize">Manual</a></li>
-                                                        <li><a ui-sref="customize">Oversized Prints</a></li>
-                                                        <li><a ui-sref="customize">Health Care Post Cards</a></li>
-                                                        <li><a ui-sref="customize">Photo Enlargement</a></li>
-                                                        <li><a ui-sref="customize">Letter Head</a></li>
-                                                        <li><a ui-sref="customize">Multipart Form</a></li>
+                                                    <ul ng-repeat ="category in categories " >
+                                                        <li><a ui-sref="customize({categoryId: category.id})">{{category.name}}</a>
+                                                            <span ng-if="category.new==1" class="badge">NEW</span>
+                                                        </li>
+
+                                                        <!--<li><a ui-sref="customize">Project <span class="badge">NEW</span></a></li>-->
+
                                                     </ul>
                                                 </div><!-- end box -->
                                             </div><!-- end col -->
